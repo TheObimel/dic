@@ -1,13 +1,14 @@
-import { Token, createToken, TokenTypes} from "./token";
-
-function isLetter(char: string): boolean {
-    return char >= 'a' && char <= 'z' || char >= 'A' && char <= 'Z' || char === '_';
-}
+import { Token, createToken, TokenType, TokenTypes } from "./token";
 
 export class Lexer {
     private currPos: number;
     private nextPos: number;
     private char: string;
+
+    private keywords: ReadonlyMap<string, TokenType> = new Map([
+        ["fn", TokenTypes.FUNCTION],
+        ["let", TokenTypes.LET],
+    ]);
 
     constructor(private input: string) {
         this.currPos = 0;
@@ -16,25 +17,9 @@ export class Lexer {
     }
 
     nextToken(): Token {
-        const token = this.tokenizer();
-        this.readChar();
+        this.skipWhitespace();
 
-        return token;
-    }
-
-    private readChar() {
-        if(this.nextPos >= this.input.length) {
-            this.char = '\0';
-        } else {
-            this.char = this.input[this.nextPos];
-        }
-        this.currPos = this.nextPos;
-        this.nextPos++;
-    }
-
-    private tokenizer(): Token {
-        this.skipWhiteSpace();
-
+        //Tokenizer
         let token: Token;
         switch (this.char) {
             case '=' :
@@ -66,24 +51,72 @@ export class Lexer {
             break;
             default:
                 if(isLetter(this.char)) {
-                    token = this.readIdentifier();
-                } else {
-                    //ILLEGAL
-                    token = createToken(TokenTypes.ILLEGAL, this.char);
+                    const ident = this.readIdentifier();
+                    token = createToken(this.lookupKeywords(ident), ident);
+
+                    return token;
                 }
+
+                if(isNumber(this.char)) {
+                    const numb = this.readNumber();
+                    token = createToken(TokenTypes.INT, numb);
+
+                    return token;
+                }
+                token = createToken(TokenTypes.ILLEGAL, this.char);
         };
+
+        this.readChar();
 
         return token;
     }
 
-    //TODO:
-    private readIdentifier(): Token {
-        return createToken(TokenTypes.LET, '');
+    private readChar() {
+        if(this.nextPos >= this.input.length) {
+            this.char = '\0';
+        } else {
+            this.char = this.input[this.nextPos];
+        }
+        this.currPos = this.nextPos;
+        this.nextPos++;
     }
 
-    private skipWhiteSpace(): void {
-        if(this.char === ' ' || this.char === '\t' || this.char === '\r' || this.char === '\n') {
+    private iterate(condition: (char: string) => boolean) {
+        const startPos = this.currPos;
+
+        while(condition(this.char)) {
             this.readChar();
         }
+
+        return this.input.substring(startPos, this.currPos);
     }
+
+    private readIdentifier(): string {
+        return this.iterate(isLetter);
+    }
+
+    //NOTE: Ignoring float numbers
+    private readNumber(): string {
+        return this.iterate(isNumber);
+    }
+
+    private lookupKeywords(identifier: string): TokenType {
+          const keyword = this.keywords.get(identifier);
+          return keyword ? keyword : TokenTypes.IDENT;
+    }
+
+    private skipWhitespace(): void {
+        if(this.char === ' ' || this.char === '\t' || this.char === '\r' || this.char === '\n') {
+            this.readChar();
+            this.skipWhitespace();
+        }
+    }
+}
+
+function isLetter(char: string): boolean {
+    return char >= 'a' && char <= 'z' || char >= 'A' && char <= 'Z' || char === '_';
+}
+
+function isNumber(char: string): boolean {
+    return char >= '0' && char <= '9';
 }

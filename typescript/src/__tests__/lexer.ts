@@ -1,19 +1,19 @@
 import { Lexer } from "../lexer";
-import { Token, tokenTypes } from "../token";
+import { Token, TokenTypes } from "../token";
 
 test("nextToken baby steps", function() {
     const input = `=+(){},;`
 
     const results: Token[] = [
-        {type: tokenTypes.ASSIGN, literal: "="},
-        {type: tokenTypes.PLUS, literal: "+"},
-        {type: tokenTypes.LPAREN, literal: "("},
-        {type: tokenTypes.RPAREN, literal: ")"},
-        {type: tokenTypes.LBRACE, literal: "{"},
-        {type: tokenTypes.RBRACE, literal: "}"},
-        {type: tokenTypes.COMMA, literal: ","},
-        {type: tokenTypes.SEMICOLON, literal: ";"},
-        {type: tokenTypes.EOF, literal: ""},
+        {type: TokenTypes.ASSIGN, literal: "="},
+        {type: TokenTypes.PLUS, literal: "+"},
+        {type: TokenTypes.LPAREN, literal: "("},
+        {type: TokenTypes.RPAREN, literal: ")"},
+        {type: TokenTypes.LBRACE, literal: "{"},
+        {type: TokenTypes.RBRACE, literal: "}"},
+        {type: TokenTypes.COMMA, literal: ","},
+        {type: TokenTypes.SEMICOLON, literal: ";"},
+        {type: TokenTypes.EOF, literal: ""},
     ];
 
     const lexer = new Lexer(input);
@@ -24,52 +24,53 @@ test("nextToken baby steps", function() {
 });
 
 test("nextToken ended", function() {
-    const input = `
-    let five = 5;
+    const input = `let  five = 5;
     let ten = 10;
+
     let add = fn(x, y) {
         x + y;
     };
+
     let result = add(five, ten);
     `
     const tests: Token[] = [
-		{type: tokenTypes.LET, literal: "let"},
-		{type: tokenTypes.IDENT, literal: "five"},
-		{type: tokenTypes.ASSIGN, literal: "="},
-		{type: tokenTypes.INT, literal: "5"},
-		{type: tokenTypes.SEMICOLON, literal: ";"},
-		{type: tokenTypes.LET, literal: "let"},
-		{type: tokenTypes.IDENT, literal: "ten"},
-		{type: tokenTypes.ASSIGN, literal: "="},
-		{type: tokenTypes.INT, literal: "10"},
-		{type: tokenTypes.SEMICOLON, literal: ";"},
-		{type: tokenTypes.LET, literal: "let"},
-		{type: tokenTypes.IDENT, literal: "add"},
-		{type: tokenTypes.ASSIGN, literal: "="},
-		{type: tokenTypes.FUNCTION, literal: "fn"},
-		{type: tokenTypes.LPAREN, literal: "("},
-		{type: tokenTypes.IDENT, literal: "x"},
-		{type: tokenTypes.COMMA, literal: ","},
-		{type: tokenTypes.IDENT, literal: "y"},
-		{type: tokenTypes.RPAREN, literal: ")"},
-		{type: tokenTypes.LBRACE, literal: "{"},
-		{type: tokenTypes.IDENT, literal: "x"},
-		{type: tokenTypes.PLUS, literal: "+"},
-		{type: tokenTypes.IDENT, literal: "y"},
-		{type: tokenTypes.SEMICOLON, literal: ";"},
-		{type: tokenTypes.RBRACE, literal: "}"},
-		{type: tokenTypes.SEMICOLON, literal: ";"},
-		{type: tokenTypes.LET, literal: "let"},
-		{type: tokenTypes.IDENT, literal: "result"},
-		{type: tokenTypes.ASSIGN, literal: "="},
-		{type: tokenTypes.IDENT, literal: "add"},
-		{type: tokenTypes.LPAREN, literal: "("},
-		{type: tokenTypes.IDENT, literal: "five"},
-		{type: tokenTypes.COMMA, literal: ","},
-		{type: tokenTypes.IDENT, literal: "ten"},
-		{type: tokenTypes.RPAREN, literal: ")"},
-		{type: tokenTypes.SEMICOLON, literal: ";"},
-		{type: tokenTypes.EOF, literal: ""},
+		{type: TokenTypes.LET, literal: "let"},
+		{type: TokenTypes.IDENT, literal: "five"},
+		{type: TokenTypes.ASSIGN, literal: "="},
+		{type: TokenTypes.INT, literal: "5"},
+		{type: TokenTypes.SEMICOLON, literal: ";"},
+		{type: TokenTypes.LET, literal: "let"},
+		{type: TokenTypes.IDENT, literal: "ten"},
+		{type: TokenTypes.ASSIGN, literal: "="},
+		{type: TokenTypes.INT, literal: "10"},
+		{type: TokenTypes.SEMICOLON, literal: ";"},
+		{type: TokenTypes.LET, literal: "let"},
+		{type: TokenTypes.IDENT, literal: "add"},
+		{type: TokenTypes.ASSIGN, literal: "="},
+		{type: TokenTypes.FUNCTION, literal: "fn"},
+		{type: TokenTypes.LPAREN, literal: "("},
+		{type: TokenTypes.IDENT, literal: "x"},
+		{type: TokenTypes.COMMA, literal: ","},
+		{type: TokenTypes.IDENT, literal: "y"},
+		{type: TokenTypes.RPAREN, literal: ")"},
+		{type: TokenTypes.LBRACE, literal: "{"},
+		{type: TokenTypes.IDENT, literal: "x"},
+		{type: TokenTypes.PLUS, literal: "+"},
+		{type: TokenTypes.IDENT, literal: "y"},
+		{type: TokenTypes.SEMICOLON, literal: ";"},
+		{type: TokenTypes.RBRACE, literal: "}"},
+		{type: TokenTypes.SEMICOLON, literal: ";"},
+		{type: TokenTypes.LET, literal: "let"},
+		{type: TokenTypes.IDENT, literal: "result"},
+		{type: TokenTypes.ASSIGN, literal: "="},
+		{type: TokenTypes.IDENT, literal: "add"},
+		{type: TokenTypes.LPAREN, literal: "("},
+		{type: TokenTypes.IDENT, literal: "five"},
+		{type: TokenTypes.COMMA, literal: ","},
+		{type: TokenTypes.IDENT, literal: "ten"},
+		{type: TokenTypes.RPAREN, literal: ")"},
+		{type: TokenTypes.SEMICOLON, literal: ";"},
+		{type: TokenTypes.EOF, literal: ""},
 	];
 
     const lexer = new Lexer(input);

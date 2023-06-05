@@ -19,7 +19,7 @@ export const TokenTypes = {
     LET: "LET",
 } as const;
 
-type TokenType = typeof TokenTypes[keyof typeof TokenTypes];
+export type TokenType = typeof TokenTypes[keyof typeof TokenTypes];
 
 export type Token = {
     type: TokenType,
