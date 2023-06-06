@@ -7,6 +7,14 @@ export const TokenTypes = {
     // Operators
     ASSIGN: "=",
     PLUS: "+",
+	MINUS: "-",
+	ASTERISK: "*",
+	SLASH: "/",
+	BANG: "!",
+	LT: "<",
+	GT: ">",
+    EQ: "==",
+    NOT_EQ: "!=",
     // Delimiters
     COMMA: ",",
     SEMICOLON: ";",
@@ -17,6 +25,11 @@ export const TokenTypes = {
     // Keywords
     FUNCTION: "FUNCTION",
     LET: "LET",
+    IF: "IF",
+    ELSE: "ELSE",
+    RETURN: "RETURN",
+    TRUE: "TRUE",
+    FALSE: "FALSE",
 } as const;
 
 export type TokenType = typeof TokenTypes[keyof typeof TokenTypes];

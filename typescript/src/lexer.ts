@@ -8,6 +8,11 @@ export class Lexer {
     private keywords: ReadonlyMap<string, TokenType> = new Map([
         ["fn", TokenTypes.FUNCTION],
         ["let", TokenTypes.LET],
+        ["if", TokenTypes.IF],
+        ["else", TokenTypes.ELSE],
+        ["return", TokenTypes.RETURN],
+        ["true", TokenTypes.TRUE],
+        ["false", TokenTypes.FALSE],
     ]);
 
     constructor(private input: string) {
@@ -23,7 +28,22 @@ export class Lexer {
         let token: Token;
         switch (this.char) {
             case '=' :
-                token = createToken(TokenTypes.ASSIGN, this.char);
+                if (this.peekABoo() === '=') {
+                    const c = this.char;
+                    this.readChar();
+                    token = createToken(TokenTypes.EQ, c + this.char);
+                } else {
+                    token = createToken(TokenTypes.ASSIGN, this.char);
+                }
+            break;
+            case '!':
+                if (this.peekABoo() === '=') {
+                    const c = this.char;
+                    this.readChar();
+                    token = createToken(TokenTypes.NOT_EQ, c + this.char);
+                } else {
+                    token = createToken(TokenTypes.BANG, this.char)
+                }
             break;
             case ';':
                 token = createToken(TokenTypes.SEMICOLON, this.char);
@@ -39,6 +59,21 @@ export class Lexer {
             break;
             case '+':
                 token = createToken(TokenTypes.PLUS, this.char);
+            break;
+            case '-':
+                token = createToken(TokenTypes.MINUS, this.char);
+            break;
+            case '/':
+                token = createToken(TokenTypes.SLASH, this.char)
+            break;
+            case '*':
+                token = createToken(TokenTypes.ASTERISK, this.char)
+            break;
+            case '<':
+                token = createToken(TokenTypes.LT, this.char)
+            break;
+            case '>':
+                token = createToken(TokenTypes.GT, this.char)
             break;
             case '{':
                 token = createToken(TokenTypes.LBRACE, this.char);
@@ -79,6 +114,13 @@ export class Lexer {
         }
         this.currPos = this.nextPos;
         this.nextPos++;
+    }
+
+    private peekABoo(): string {
+        if(this.nextPos >= this.input.length) {
+            return '\0';
+        }
+        return this.input[this.nextPos];
     }
 
     private iterate(condition: (char: string) => boolean) {
