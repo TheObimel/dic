@@ -14,12 +14,12 @@ Language        Original Owner      Rewriting
 /fortran/       @greuben92          -
 /fsharp/        @meenzen            -
 /haskell/       @alexjercan         -
-/java/          @xNaCly             X
-/ocaml/         @tjdevries          X
+/java/          @xNaCly             @mrme
+/ocaml/         @tjdevries          @mrme
 /odin/          @jon-lipstate       -
 /php/           @wartab             -
 /python/        @BatikanHyt         -
 /roc/           @bhansconnect       -
-/rust/          @ThePrimeagen       X
-/typescript/    @ThePrimeagen       X
+/rust/          @ThePrimeagen       @mrme
+/typescript/    @ThePrimeagen       @mrme
 /zig/           @ThePrimeagen       -

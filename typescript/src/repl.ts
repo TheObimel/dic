@@ -4,7 +4,8 @@ import { Lexer } from "./lexer";
 import { Token, TokenTypes } from "./token";
 
 async function start(){
-    const rl = readline.createInterface({ input, output });
+    const rl = readline.createInterface({ input, output, prompt: ">> " });
+    rl.prompt();
     rl.on('line', (line) => {
         const lexer = new Lexer(line);
         let token: Token | undefined;
@@ -13,8 +14,9 @@ async function start(){
             token = lexer.nextToken();
             console.log(token);
         }
-    });
 
+        rl.prompt();
+    });
 }
 
 start();
