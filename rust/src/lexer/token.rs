@@ -1,6 +1,5 @@
 use std::fmt::{Display, Formatter, Result};
 
-//TODO: Add more Tokens
 #[derive(Debug, PartialEq)]
 pub enum Token {
     Illegal,
