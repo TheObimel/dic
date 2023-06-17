@@ -1,5 +1,0 @@
-interpreter/Repl.class
-interpreter/App.class
-interpreter/TypeChecker.class
-interpreter/Lexer.class
-interpreter/Token.class
